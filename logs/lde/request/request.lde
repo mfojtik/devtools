@@ -1,0 +1,6 @@
+Line =
+  Verb(string) ' '
+  Path(string) ": "
+  ^'(' Duration(string) ") "
+  StatusCode(int16) ' '
+;

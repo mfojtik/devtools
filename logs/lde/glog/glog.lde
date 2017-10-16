@@ -1,0 +1,8 @@
+Line =
+  ^' '[15] Hostname(string) ' '
+  ServiceName(string)'['
+  _": " Level(string) ' '
+  Time(string) ' '
+  _[2:] _' ' Filename(string) ']'
+  _' ' Message(string)
+;

@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"os"
+	"os/exec"
 	"strconv"
 	"strings"
 
@@ -12,6 +13,22 @@ import (
 	log "github.com/sirupsen/logrus"
 	"golang.org/x/oauth2"
 )
+
+func currentBranchName() string {
+	out, err := exec.Command("git", "rev-parse", "--abbrev-ref", "HEAD").CombinedOutput()
+	if err != nil {
+		log.Fatalf("error running git: %q (%v)", out, err)
+	}
+	return strings.TrimSpace(string(out))
+}
+
+func isInGitLog(title string) bool {
+	out, err := exec.Command("git", "log", "--all", "--grep", title).CombinedOutput()
+	if err != nil {
+		log.Fatalf("error running git: %q (%v)", out, err)
+	}
+	return len(strings.TrimSpace(string(out))) != 0
+}
 
 func main() {
 	if len(os.Args) == 1 || len(os.Args[1]) == 0 {
@@ -48,6 +65,7 @@ func main() {
 	)
 	tc := oauth2.NewClient(ctx, ts)
 	client := github.NewClient(tc)
+	currentBranch := currentBranchName()
 
 	for _, prNumber := range prs {
 		prLog := log.WithFields(log.Fields{
@@ -57,10 +75,15 @@ func main() {
 		if err != nil {
 			prLog.Errorf("error fetching status: %v", err)
 		}
-		prLog = prLog.WithField("title", pr.GetTitle())
-		mergeStatus := "MERGED"
-		if *pr.Merged == false {
-			mergeStatus = "NOT MERGED"
+		prLog = prLog.WithField("title", pr.GetTitle()).
+			WithField("base", pr.Base.GetLabel())
+
+		mergeStatus := "NOT MERGED"
+		if *pr.Merged {
+			mergeStatus = "MERGED"
+			if isInGitLog(pr.GetTitle()) {
+				mergeStatus += " (available in " + currentBranch + ")"
+			}
 		}
 		prLog.Info(mergeStatus)
 	}

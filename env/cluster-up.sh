@@ -17,5 +17,6 @@ oc-dev cluster up --version="${current_version}" \
   --host-config-dir="${data_dir}/config" \
   --use-existing-config \
   --image-streams=centos7 \
+  --public-hostname=10.34.129.53 \
   --skip-registry-check \
   --server-loglevel=5

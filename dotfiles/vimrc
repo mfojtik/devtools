@@ -1,0 +1,171 @@
+" neovim init file
+"
+let mapleader = ","
+
+set clipboard^=unnamed
+if has('unnamedplus')
+  set clipboard^=unnamedplus
+endif
+if has('persistent_undo')
+  set undofile
+  set undodir=~/.config/vim/tmp/undo//
+endif
+set shortmess=atIsAoc
+set ignorecase
+set novisualbell
+set wildignore=.svn,CVS,.git,*.o,*.a,*.class,*.mo,*.la,*.so,*.obj,*.swp,*.jpg,*.png,*.xpm,*.gif
+set completeopt=menu,noinsert,noselect
+
+" always do global substitution
+set gdefault
+
+set timeout timeoutlen=1000 ttimeoutlen=10        " faster esc - maybe :|
+
+" formatting options and tabs/spaces
+" set formatoptions=tcqro
+set formatoptions=tcqrn1
+set expandtab
+set tabstop=2
+set shiftwidth=2
+set softtabstop=2
+set textwidth=80
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+" basic indentation
+au Filetype ruby,python,bash,go set cindent
+
+" manage external plugins
+call plug#begin('~/.config/vim/plugged')
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+Plug 'fatih/vim-go', { 'do': ':GoInstallBinaries' }
+Plug 'tpope/vim-fugitive'
+Plug 'itchyny/lightline.vim'
+Plug 'mileszs/ack.vim'
+Plug 'airblade/vim-gitgutter'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
+Plug 'AndrewRadev/splitjoin.vim'
+Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'tpope/vim-rhubarb'
+Plug 'josuegaleas/jay'
+Plug 'w0rp/ale'
+Plug 'Shougo/neocomplete.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
+call plug#end()
+
+" colors
+" allow neovim to use the original terminal colors
+"colorscheme molokai
+"set t_Co=256
+
+set background=dark
+"let jay_transparent=1
+colorscheme jay
+
+set nocursorline
+"set nolazyredraw
+set noshowmatch
+set nocursorcolumn
+set nocursorline
+
+set mouse=n
+
+" gitgutter
+let g:gitgutter_map_keys = 0
+nmap <Leader>ad <Plug>GitGutterStageHunk
+nmap <Leader>aD <Plug>GitGutterUndoHunk
+
+" Error and warning signs.
+let g:ale_sign_error = '⤫'
+let g:ale_sign_warning = '⚠'
+let g:ale_sign_column_always = 1
+let g:ale_lint_on_text_changed = 'never'
+let g:ale_lint_on_enter = 0
+let g:airline#extensions#ale#enabled = 1
+
+
+" vim-go settings
+let g:go_fmt_command = "goimports"
+let g:go_bin_path = $HOME."/go/bin"
+let g:go_gotags_bin = $HOME."/go/bin/gotags"
+let g:go_highlight_space_tab_error = 0
+let g:go_highlight_trailing_whitespace_error = 0
+let g:go_highlight_functions = 1
+let g:go_highlight_methods = 0
+let g:go_list_type = "quickfix"
+" experimental: default is 'gocode'
+let g:go_info_mode = 'guru'
+"let g:go_auto_type_info = 1
+
+au FileType go nmap <leader>gt :GoDeclsDir<cr>
+
+" gist settings
+let g:gist_clip_command = 'pbcopy'
+let g:gist_detect_filetype = 1
+let g:gist_open_browser_after_post = 1
+
+" custom key bindings
+map <leader>d :NERDTreeToggle<CR>
+" map <leader>s :BufExplorer<CR>
+
+au FileType go nmap <Leader>gd <Plug>(go-doc)
+au FileType go nmap <Leader>i <Plug>(go-info)
+
+" do not try to colorize huge json files
+au FileType json let g:vim_json_syntax_conceal = 0
+" let vim-go deal with tabs
+au FileType go set listchars-=tab:>. nolist
+
+" statusline
+let g:lightline = {
+      \ 'colorscheme': 'powerline',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'fugitive', 'readonly', 'absolutepath', 'modified' ] ]
+      \ },
+      \ 'component': {
+      \   'readonly': '%{&filetype=="help"?"":&readonly?"RO":""}',
+      \   'modified': '%{&filetype=="help"?"":&modified?"+":&modifiable?"":"-"}',
+      \   'fugitive': '%{exists("*fugitive#head")?fugitive#head():""}'
+      \ },
+      \ 'component_visible_condition': {
+      \   'readonly': '(&filetype!="help"&& &readonly)',
+      \   'modified': '(&filetype!="help"&&(&modified||!&modifiable))',
+      \   'fugitive': '(exists("*fugitive#head") && ""!=fugitive#head())'
+      \ },
+      \ 'separator': { 'left': '', 'right': '' },
+      \ 'subseparator': { 'left': '|', 'right': '|' }
+      \ }
+
+noremap <expr> <CR> (pumvisible() ? "\<c-y>\<cr>" : "\<CR>")
+noremap <c-c> <ESC>
+noremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+
+" personal preference... keep the mnemonic
+nmap sj :SplitjoinSplit<cr>
+
+" au VimLeave * set guicursor=a:ver30
+
+" vim specific
+set laststatus=2
+set noshowmode
+if !has('gui_running')
+  set t_Co=256
+endif
+set backspace=2
+
+let g:neocomplete#enable_at_startup = 1
+let g:neocomplete#enable_smart_case = 1
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+let &t_SR = "\<Esc>]50;CursorShape=2\x7"
+let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+
+nmap ; :Buffers<CR>
+nmap <Leader>t :Files<CR>
+nmap <Leader>r :Tags<CR>

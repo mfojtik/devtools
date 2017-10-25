@@ -64,6 +64,7 @@ call plug#end()
 set background=dark
 "let jay_transparent=1
 colorscheme jay
+let g:rehash256 = 1
 
 set nocursorline
 "set nolazyredraw
@@ -79,13 +80,14 @@ nmap <Leader>ad <Plug>GitGutterStageHunk
 nmap <Leader>aD <Plug>GitGutterUndoHunk
 
 " Error and warning signs.
-let g:ale_sign_error = '⤫'
-let g:ale_sign_warning = '⚠'
+let g:ale_sign_warning = '▲'
+let g:ale_sign_error = '✗'
 let g:ale_sign_column_always = 1
 let g:ale_lint_on_text_changed = 'never'
 let g:ale_lint_on_enter = 0
 let g:airline#extensions#ale#enabled = 1
 
+let g:fzf_layout = { 'up': '~30%' }
 
 " vim-go settings
 let g:go_fmt_command = "goimports"
@@ -121,7 +123,7 @@ au FileType go set listchars-=tab:>. nolist
 
 " statusline
 let g:lightline = {
-      \ 'colorscheme': 'powerline',
+      \ 'colorscheme': 'wombat',
       \ 'active': {
       \   'left': [ [ 'mode', 'paste' ],
       \             [ 'fugitive', 'readonly', 'absolutepath', 'modified' ] ]

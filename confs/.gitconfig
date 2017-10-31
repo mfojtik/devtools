@@ -1,0 +1,51 @@
+[credential]
+  helper = osxkeychain
+
+[user]
+  name = Michal Fojtik
+  mail = mfojtik@redhat.com
+  email = mfojtik@redhat.com
+  signingkey = 38AAC0EE
+
+[color]
+  diff = auto
+  status = auto
+  branch = auto
+  ui = true
+  pager = true
+
+[apply]
+  whitespace = strip
+
+[alias]
+  b = branch -v
+  cp = cherry-pick
+  rb = rebase -i master
+  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  wip = commit -a -m "wip"
+  cm = commit
+  cp = cherry-pick
+  delete-merged-local = "!git branch --merged master | grep -v 'master$' | xargs git branch -D"
+  psed = !sh -c 'git grep --null --full-name --name-only -e \"$1\" | xargs -0 perl -i -p -e \"s/$1/$2/g\"' -
+  acommit = commit --amend --no-edit
+  files = diff --name-only upstream/master
+  keep-theirs = checkout --theirs
+  keep-mine = checkout --ours
+
+[commit]
+  gpgsign = true
+
+[core]
+  whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
+  trustctime = false
+  pager = diff-so-fancy | less --tabs=4 -RFX
+	excludesfile = ~/.gitignore
+
+[github]
+  user = mfojtik
+[gpg]
+	program = /usr/local/MacGPG2/bin/gpg2
+
+
+[push]
+	default = current

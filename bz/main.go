@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"log"
 
 	"github.com/mfojtik/devtools/bz/query"
@@ -8,7 +9,10 @@ import (
 	"github.com/mfojtik/devtools/bz/types"
 )
 
+var detailsFlag = flag.Bool("details", false, "Show more details")
+
 func main() {
+	flag.Parse()
 	var bugList types.Buglist
 	b := query.NewBugzillaQuery()
 
@@ -23,5 +27,12 @@ func main() {
 		log.Fatalf("Unable to fetch bugs from %s: %v", b.Complete().String(), err)
 	}
 
+	if *detailsFlag == true {
+		if err := query.ProcessBuglistForDetails(&bugList); err != nil {
+			log.Fatalf("Unable to process bug details: %v", err)
+		}
+		render.ConsoleDetails(&bugList)
+		return
+	}
 	render.Console(&bugList)
 }

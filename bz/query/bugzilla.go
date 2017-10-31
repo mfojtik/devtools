@@ -6,6 +6,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
 
 	"github.com/mfojtik/devtools/bz/types"
@@ -94,7 +95,14 @@ func (b *BugzillaQueryBuilder) Do() error {
 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 	}
 	client := &http.Client{Transport: tr}
-	resp, err := client.Get(b.Complete().String())
+	req, err := http.NewRequest("GET", b.Complete().String(), nil)
+	if err != nil {
+		return err
+	}
+	if len(os.Getenv("BUGZILLA_USERNAME")) > 0 {
+		req.SetBasicAuth(os.Getenv("BUGZILLA_USERNAME"), os.Getenv("BUGZILLA_PASSWORD"))
+	}
+	resp, err := client.Do(req)
 	if err != nil {
 		return err
 	}

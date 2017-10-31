@@ -1,6 +1,8 @@
 package types
 
-import "time"
+import (
+	"time"
+)
 
 // Buglist holds a list of bugs.
 type Buglist struct {
@@ -17,4 +19,19 @@ type Bug struct {
 	Resolution string
 	Summary    string
 	Changed    time.Time
+
+	Details *BugDetails
+}
+
+// Bugzilla is XML wrapper
+type Bugzilla struct {
+	Bug BugDetails `xml:"bug"`
+}
+
+// BugDetails contains additional information about bug. Filling this struct is
+// expensive because it requires additional call to server for each bug.
+type BugDetails struct {
+	Version       string   `xml:"version"`
+	TargetRelease string   `xml:"target_release"`
+	Keywords      []string `xml:"keywords"`
 }

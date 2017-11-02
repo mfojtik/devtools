@@ -88,9 +88,6 @@ go-ose() {
   switch-go-workspace "ose" "github.com/openshift/ose"
 }
 
-add-github-repo() {
-}
-
 test -e ${HOME}/.go-vars && source ${HOME}/.go-vars
 
 alias run-dev="${HOME}/vms/centos7/run_dev.sh"

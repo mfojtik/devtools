@@ -19,7 +19,7 @@ func main() {
 	if err := b.AddSeverities("unspecified", "urgent", "high", "medium").
 		AddStatuses("NEW", "ASSIGNED", "POST", "ON_DEV").
 		AddKeyword("UpcomingRelease", "nowords").
-		AddComponents("Deployments", "Master", "etcd").
+		AddComponents("Deployments", "Master", "etcd", "Command Line Interface").
 		AddProducts("OpenShift Container Platform").
 		AddProducts("OpenShift Online").
 		AddProducts("OpenShift Origin").

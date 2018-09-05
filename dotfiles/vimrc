@@ -47,7 +47,7 @@ Plug 'airblade/vim-gitgutter'
 Plug 'mattn/webapi-vim'
 Plug 'mattn/gist-vim', {'depends': 'mattn/webapi-vim'}
 Plug 'AndrewRadev/splitjoin.vim'
-Plug 'nsf/gocode', { 'rtp': 'nvim', 'do': '~/.config/nvim/plugged/gocode/nvim/symlink.sh' }
+Plug 'nsf/gocode', { 'rtp': 'vim', 'do': '~/.config/vim/plugged/gocode/vim/symlink.sh' }
 Plug 'tpope/vim-rhubarb'
 Plug 'josuegaleas/jay'
 Plug 'w0rp/ale'
@@ -64,10 +64,10 @@ call plug#end()
 set background=dark
 "let jay_transparent=1
 colorscheme jay
-let g:rehash256 = 1
+"let g:rehash256 = 1
 
 set nocursorline
-"set nolazyredraw
+set nolazyredraw
 set noshowmatch
 set nocursorcolumn
 set nocursorline
@@ -99,7 +99,7 @@ let g:go_highlight_functions = 1
 let g:go_highlight_methods = 0
 let g:go_list_type = "quickfix"
 " experimental: default is 'gocode'
-let g:go_info_mode = 'guru'
+"let g:go_info_mode = 'guru'
 "let g:go_auto_type_info = 1
 
 au FileType go nmap <leader>gt :GoDeclsDir<cr>

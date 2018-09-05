@@ -20,17 +20,23 @@
 [alias]
   b = branch -v
   cp = cherry-pick
-  rb = rebase -i master
-  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  cm = commit -m
+  up = reset --hard upstream/master --
+  rb = rebase --interactive master
   wip = commit -a -m "wip"
-  cm = commit
   cp = cherry-pick
-  delete-merged-local = "!git branch --merged master | grep -v 'master$' | xargs git branch -D"
-  psed = !sh -c 'git grep --null --full-name --name-only -e \"$1\" | xargs -0 perl -i -p -e \"s/$1/$2/g\"' -
   acommit = commit --amend --no-edit
+  commit-empty = commit --allow-empty
   files = diff --name-only upstream/master
   keep-theirs = checkout --theirs
   keep-mine = checkout --ours
+  lasttag = describe --tags --abbrev=0
+  whatadded = log --follow --diff-filter=A --find-renames=40%
+  psed = !sh -c 'git grep --null --full-name --name-only -e \"$1\" | xargs -0 perl -i -p -e \"s/$1/$2/g\"' -
+  ls = log --pretty=format:"%C(green)%h\\ %C(yellow)[%ad]%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
+  ll = log --pretty=format:"%C(yellow)%h%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --numstat
+  go = "!f() { git checkout -b \"$1\" 2> /dev/null || git checkout \"$1\"; }; f"
+  delete-merged-local = "!git branch --merged master | grep -v 'master$' | xargs git branch -D"
 
 [commit]
   gpgsign = true
@@ -38,14 +44,25 @@
 [core]
   whitespace = fix,-indent-with-non-tab,trailing-space,cr-at-eol
   trustctime = false
-  pager = diff-so-fancy | less --tabs=4 -RFX
+  #pager = diff-so-fancy | less --tabs=4 -RFX
 	excludesfile = ~/.gitignore
 
 [github]
   user = mfojtik
+
 [gpg]
 	program = /usr/local/MacGPG2/bin/gpg2
 
 
 [push]
 	default = current
+
+[gc "refs/remotes/*"]
+  reflogExpire = never
+  reflogExpireUnreachable = 3 days
+
+[rerere]
+	enabled = true
+[merge]
+	renamelimit = 31440
+  conflictstyle = diff3

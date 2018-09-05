@@ -38,6 +38,9 @@ export GIT_COMMITTER_EMAIL='mfojtik@redhat.com'
 export CLICOLOR=1
 export EDITOR='vim'
 
+# This allow to test origin using unsupported go version
+export PERMISSIVE_GO=y
+
 # Want to see all processes and cores
 alias htop='sudo htop'
 alias dmesg='sudo dmesg'
@@ -84,7 +87,7 @@ cd-kube() {
   switch-go-workspace "kube" "k8s.io/kubernetes"
 }
 
-go-ose() {
+cd-ose() {
   switch-go-workspace "ose" "github.com/openshift/ose"
 }
 
@@ -95,3 +98,7 @@ alias kill-dev="sudo pkill -9 xhyve"
 
 [[ -s "/Users/mfojtik/.gvm/scripts/gvm" ]] && source "/Users/mfojtik/.gvm/scripts/gvm"
 export PATH="/usr/local/opt/curl/bin:$PATH"
+
+if which hub &>/dev/null; then
+  eval "$(hub alias -s)"
+fi

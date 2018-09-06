@@ -1,0 +1,8 @@
++ src
++ src/github.com
++ src/github.com/openshift
+- src/github.com/openshift/origin/_output/***
++ src/github.com/openshift/origin/***
+- src/**
+- bin
+- pkg

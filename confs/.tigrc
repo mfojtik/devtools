@@ -1,0 +1,10 @@
+set main-view = date:default id:yes author:full commit-title:graph:v1,refs:yes
+set main-view-date = custom
+set main-view-date-format = "%Y-%m-%d"
+set git-colors = no
+set line-graphics = utf-8
+set show-changes = true
+set status-show-untracked-files = true
+set status-show-untracked-dirs = true
+set commit-order = topo
+set mouse-wheel-cursor = true

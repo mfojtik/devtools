@@ -1,0 +1,8 @@
++ src
++ src/github.com
++ src/github.com/mfojtik
+- src/github.com/mfojtik/cluster-up/_output/***
++ src/github.com/mfojtik/cluster-up/***
+- src/**
+- bin
+- pkg

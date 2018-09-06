@@ -1,19 +1,16 @@
 # Custom bash configuration
 #
 #
-source ${HOME}/.bashrc
-[[ -f "${HOME}/.tokens" ]] && source ${HOME}/.tokens
 
-# Enable bash completion
+source ${HOME}/.bashrc
+
+# Enable bash completion on mac
 if [ -f /usr/local/share/bash-completion/bash_completion ]; then
   . /usr/local/share/bash-completion/bash_completion
 fi
 
 bind "set completion-ignore-case on"
 bind "set completion-map-case on"
-
-# Enable gvm
-[[ -s "${HOME}/.gvm/scripts/gvm" ]] && source "${HOME}/.gvm/scripts/gvm"
 
 # Unlock SSH key
 ssh-add -K ~/.ssh/id_rsa &>/dev/null
@@ -55,12 +52,13 @@ alias ls="command ls ${colorflag}"
 # Force push to update github pulls
 alias gitpush="git push -f"
 
-# Include my env scripts
-export PATH="${HOME}/go/src/github.com/mfojtik/devtools/env:$PATH"
+# Add devtools scripts to path
+export PATH="${HOME}/go/src/github.com/mfojtik/devtools/bin:$PATH"
 
-os-get-memory-profile() {
-  oc exec -c prom-proxy prometheus-0 -- /bin/bash -c 'curl -k https://52.60.163.81:8444/debug/pprof/profile -H "Authorization: bearer $( cat /var/run/secrets/kubernetes.io/serviceaccount/token )"' > /tmp/profile
-}
+# Curl?
+export PATH="/usr/local/opt/curl/bin:$PATH"
+
+code () { VSCODE_CWD="$PWD" open -n -b "com.microsoft.VSCode" --args $* ;}
 
 # Allow easy switching between different golang workspaces
 switch-go-workspace() {
@@ -87,18 +85,11 @@ cd-kube() {
   switch-go-workspace "kube" "k8s.io/kubernetes"
 }
 
-cd-ose() {
-  switch-go-workspace "ose" "github.com/openshift/ose"
-}
-
 test -e ${HOME}/.go-vars && source ${HOME}/.go-vars
-
-alias run-dev="${HOME}/vms/centos7/run_dev.sh"
-alias kill-dev="sudo pkill -9 xhyve"
-
-[[ -s "/Users/mfojtik/.gvm/scripts/gvm" ]] && source "/Users/mfojtik/.gvm/scripts/gvm"
-export PATH="/usr/local/opt/curl/bin:$PATH"
 
 if which hub &>/dev/null; then
   eval "$(hub alias -s)"
 fi
+
+# Add iterm integration
+test -e "${HOME}/.iterm2_shell_integration.bash" && source "${HOME}/.iterm2_shell_integration.bash"

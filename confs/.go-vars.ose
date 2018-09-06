@@ -1,0 +1,2 @@
+export GOPATH=$HOME/workspaces/ose
+export PATH=$PATH:$GOPATH/bin

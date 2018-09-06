@@ -1,0 +1,2 @@
+export GOPATH=$HOME/go
+export PATH=$GOPATH/src/github.com/openshift/origin/_output/local/bin/darwin/amd64:$PATH:$GOPATH/bin

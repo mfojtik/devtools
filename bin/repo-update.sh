@@ -1,6 +1,7 @@
 #!/bin/bash
 
 set -e
+
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 if [[ ! -d "$(pwd)/.git" ]]; then
@@ -8,23 +9,28 @@ if [[ ! -d "$(pwd)/.git" ]]; then
   exit 1
 fi
 
-if [[ "$(git rev-parse --abbrev-ref HEAD)" == "master" ]]; then
+if [[ "$(git rev-parse --abbrev-ref HEAD)" != "master" ]]; then
+  echo "-> checking out the master branch"
   git checkout master &>/dev/null
 fi
 
-git fetch -p --quiet origin
+echo "-> fetching the latest origin remote ..."
+git fetch -p origin
 
 if [[ "$(git remote show | grep upstream || true)" != "upstream" ]]; then
   echo "$(pwd) does not have upstream remote defined"
   exit 0
 fi
 
-git fetch --quiet -p upstream
-git reset --hard upstream/master &>/dev/null
-git push --quiet origin master --force
+echo "-> fetching the latest upstream remote ..."
+git fetch -p upstream
 
+echo "-> reseting local master branch to upstream/master"
+git reset --hard upstream/master
+
+echo "-> pushing local master branch to origin remote ..."
+git push origin master --force
+
+echo "-> deleting local branches already merged to master ..."
 # Prune branches already merged to upstream master
 git branch --merged master | grep -v 'master$' | xargs git branch -D &>/dev/null
-
-# Prune branches in remote
-${script_dir}/repo-prune.sh

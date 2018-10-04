@@ -12,7 +12,7 @@ dstdir="${HOME}/go/src/github.com/${orgname}"
 
 if [[ -d "${dstdir}/${reponame}" ]]; then
     echo "directory ${dstdir}/${reponame} already exists"
-    exit 1
+    exit 0
 fi
 
 mkdir -p ${dstdir}

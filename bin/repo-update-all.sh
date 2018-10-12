@@ -1,29 +1,26 @@
 #!/bin/bash
 
 set -e
-set -x
 script_dir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 dirs=(
     openshift/api
-    openshift/client-go
     openshift/library-go
-    openshift/cluster-kube-apiserver-operator
     openshift/origin
-    openshift/release
-    openshift/openshift-docs
-    openshift/imagebuilder
+    openshift/installer
+    openshift/cluster-kube-apiserver-operator
+    openshift/cluster-kube-controller-manager-operator
+    openshift/cluster-openshift-apiserver-operator
+    openshift/cluster-openshift-controller-manager-operator
+    openshift/cluster-kube-scheduler-operator
 )
 
 for repo in ${dirs[*]}; do
-    i=$((i+1)) 
-    cd "${HOME}/go/src/github.com/${repo}" && ${script_dir}/repo-update.sh &
-    pids[${i}]=$!
+    echo "[*] Updating ${repo} ..."
+    pushd "${HOME}/go/src/github.com/${repo}" >/dev/null
+    ${script_dir}/repo-update.sh
+    popd >/dev/null
 done
 
-echo -ne "Updating ${#pids[*]} repositories "
-for pid in ${pids[*]}; do
-    echo -ne "."
-    wait $pid
-done
-echo " done!"
+echo
+echo "All repositories successfully updated!"

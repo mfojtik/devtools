@@ -90,6 +90,16 @@ var matchContainerNames = map[string][]string{
 	"kube-apiserver":           {"openshift-kube-apiserver_openshift-kube-apiserver"},
 	"kube-apiserver-installer": {"openshift-kube-apiserver_installer"},
 	"kube-apiserver-operator":  {"openshift-cluster-kube-apiserver-operator_openshift-cluster-kube-apiserver-operator"},
+
+	"kube-controller-manager":           {"openshift-kube-controller-manager_openshift-kube-controller-manager"},
+	"kube-controller-manager-installer": {"openshift-kube-controller-manager_installer"},
+	"kube-controller-manager-operator":  {"openshift-cluster-kube-controller-manager-operator_openshift-cluster-kube-controller-manager-operator"},
+
+	"openshift-apiserver":          {"openshift-apiserver_apiserver"},
+	"openshift-apiserver-operator": {" openshift-cluster-openshift-apiserver-operator_openshift-cluster-openshift-apiserver-operator"},
+
+	"openshift-controller-manager":          {"openshift-controller-manager_controller-manager"},
+	"openshift-controller-manager-operator": {" openshift-cluster-openshift-controller-manager-operator_openshift-cluster-openshift-controller-manager-operator"},
 }
 
 func main() {

@@ -13,14 +13,17 @@ dirs=(
     openshift/cluster-openshift-apiserver-operator
     openshift/cluster-openshift-controller-manager-operator
     openshift/cluster-kube-scheduler-operator
+    openshift/cluster-config-operator
 )
 
+# kube repo
+pushd "${HOME}/go/src/k8s.io/kubernetes" >/dev/null
+${script_dir}/repo-update.sh
+popd >/dev/null
+
 for repo in ${dirs[*]}; do
-    echo "[*] Updating ${repo} ..."
     pushd "${HOME}/go/src/github.com/${repo}" >/dev/null
     ${script_dir}/repo-update.sh
     popd >/dev/null
 done
 
-echo
-echo "All repositories successfully updated!"

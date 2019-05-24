@@ -1,0 +1,1 @@
+[{"name":"kube-controller-manager-operator-e2e-aws","builds":{}},{"name":"openshift-apiserver-operator-e2e-aws","builds":{}},{"name":"openshift-controller-manager-operator-e2e-aws","builds":{}},{"name":"kube-apiserver-operator-e2e-aws","builds":{}}]

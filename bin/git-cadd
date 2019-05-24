@@ -1,0 +1,6 @@
+#!/bin/bash
+
+set -e
+
+input_file=${1:?usage: $0 input_file}
+git add "${input_file}" && git commit -m "${input_file} updated"

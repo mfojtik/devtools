@@ -19,6 +19,7 @@
 
 [alias]
   b = branch -v
+  sb = status -sb
   cp = cherry-pick
   cm = commit -m
   up = reset --hard upstream/master --
@@ -26,6 +27,7 @@
   wip = commit -a -m "wip"
   cp = cherry-pick
   acommit = commit --amend --no-edit
+  head = show "^HEAD"
   commit-empty = commit --allow-empty
   files = diff --name-only upstream/master
   keep-theirs = checkout --theirs

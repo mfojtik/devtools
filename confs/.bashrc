@@ -1,6 +1,12 @@
-# .bashrc
+# ~/.bashrc executed by bash(1) for non-login shells.
 
-# Source global definitions
+# If not running interactively, don't do anything
+case $- in
+    *i*) ;;
+      *) return;;
+esac
+
+# Source OSX defaults
 if [ -f /etc/bashrc ]; then
   . /etc/bashrc
 fi
@@ -8,19 +14,40 @@ fi
 shopt -s cdspell        # This will correct minor spelling errors in a cd command.
 shopt -s histappend     # Append to history rather than overwrite
 shopt -s dotglob        # Files beginning with . to be returned in the results of path-name expansion.
-shopt -s nocaseglob
-shopt -s checkwinsize
-shopt -s histappend
+shopt -s globstar       # The ** pattern will match all files and zero or more directories
 
-HISTSIZE=500000
-HISTFILESIZE=100000
-HISTCONTROL="erasedups:ignoreboth"
-HISTIGNORE="&:[ ]*:exit:ls:bg:fg:history:clear"
-HISTTIMEFORMAT='%F %T '
+HISTSIZE=1000           # Maximum lines in history file
+HISTFILESIZE=2000       # Maximum history file size
+HISTCONTROL=ignoreboth  # Do not put duplicate lines to history
 
-export EDITOR="vim"
-export VISUAL="vim"
-export PATH=$HOME/bin:$PATH
-export PS1="\w \[\033[00m\]\[\033[00;34m\]→\[\033[00m\] "
+# Generic
+alias ll='ls -latr'
 
-[ -f ~/.fzf.bash ] && source ~/.fzf.bash
+# Quick path switch
+alias cd-origin="cd ${HOME}/go/src/github.com/openshift/origin"
+alias cd-mfojtik="cd ${HOME}/go/src/github.com/mfojtik"
+alias cd-library-go="cd ${HOME}/go/src/github.com/openshift/library-go"
+
+# ¯\_(ツ)_/¯
+alias ack="rg"
+
+if [[ -f "/usr/local/bin/bat" ]]; then
+    alias cat="bat -p"
+fi
+
+if [[ "$OSTYPE" == darwin* ]]; then
+    alias sed="gsed"
+    alias aws="gawk"
+fi
+
+# vs-code
+function code {
+    if [[ $# = 0 ]]
+    then
+        open -a "Visual Studio Code"
+    else
+        local argPath="$1"
+        [[ $1 = /* ]] && argPath="$1" || argPath="$PWD/${1#./}"
+        open -a "Visual Studio Code" "$argPath"
+    fi
+}

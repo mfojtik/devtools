@@ -12,5 +12,3 @@ ${script_dir}/repo-add.sh openshift library-go
 ${script_dir}/repo-add.sh openshift origin
 ${script_dir}/repo-add.sh openshift openshift-docs
 ${script_dir}/repo-add.sh openshift release
-
-${script_dir}/repo-add.sh mfojtik cluster-rebuild

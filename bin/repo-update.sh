@@ -41,7 +41,7 @@ if [[ ! -d "$(pwd)/.git" ]]; then
 fi
 
 report ":cloud: Fetching remote updates for: $(echo -n $(git remote)) ..."
-git fetch --quiet --all --prune --prune-tags
+git fetch --quiet --all --prune --no-tags
 
 if [[ "$(git remote show | grep upstream || true)" != "upstream" ]]; then
   report ":poop:  $(pwd) does not have 'upstream' remote" && exit 0

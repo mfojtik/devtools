@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# Handle version
+if [[ "$1" == "version" ]]; then
+    echo "0.0.1"
+    exit 0
+fi
+
+if [[ "$1" == "config" ]]; then
+    echo $KUBECONFIG
+    exit 0
+fi
+
+oc_bin=$(which oc)
+
+if [[ -z "${oc_bin}" ]]; then
+  echo "Unable to locate 'oc' binary in path"
+fi
+
+downloadDir=$(mktemp -d)
+$oc_bin adm release extract --command=oc --to=${downloadDir}
+if [[ -f "${downloadDir}/oc" ]]; then
+  echo "Extraction of oc binary failed"
+  exit 1
+fi
+
+echo "Updating $($oc_bin --client -o yaml | grep gitVersion | cut -d' ' -f4) to ${${downloadDir}/oc --client -o yaml | grep gitVersion | cut -d' ' -f4} ..."
+cp -f ${downloadDir}/oc ${oc_bin}
